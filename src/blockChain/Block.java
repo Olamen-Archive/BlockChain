@@ -26,12 +26,15 @@ public class Block {
     Hash currHash = new Hash("".getBytes());
     for (nonce = 0; nonce < Long.MAX_VALUE; nonce++) {
       byte[] tmpByte;
+      /*
       if (prevHash == null) {
         tmpByte = ByteBuffer.allocate(64).putInt(num).putInt(amount).putLong(nonce).array();
       } else {
         tmpByte = ByteBuffer.allocate(64).putInt(num).putInt(amount).putLong(nonce)
             .put(prevHash.getData()).array();
       }
+      */
+      tmpByte = Hash.calculateHash(num, amount, prevHash, nonce);
       currHash = new Hash(tmpByte);
       if (currHash.isValid())
         break;
@@ -58,6 +61,7 @@ public class Block {
     this.amount = amount;
     this.prevHash = prevHash;
     this.nonce = nonce;
+    /*
     if (prevHash == null) {
       this.currHash =
           new Hash(ByteBuffer.allocate(64).putInt(num).putInt(amount).putLong(nonce).array());
@@ -65,6 +69,8 @@ public class Block {
       this.currHash = new Hash(ByteBuffer.allocate(64).putInt(num).putInt(amount).putLong(nonce)
           .put(prevHash.getData()).array());
     }
+    */
+    currHash = new Hash(Hash.calculateHash(num, amount, prevHash, nonce));
     if (!currHash.isValid()) {
       throw new IllegalArgumentException("invalid nonce: " + nonce);
     }

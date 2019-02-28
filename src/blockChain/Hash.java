@@ -3,6 +3,7 @@
  */
 package blockChain;
 
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -24,6 +25,17 @@ public class Hash {
     MessageDigest md = MessageDigest.getInstance("sha-256");
     md.update(data);
     this.hash = md.digest();
+  }
+
+  public static byte[] calculateHash(int num, int amount, Hash prevHash, long nonce) throws NoSuchAlgorithmException {
+    MessageDigest md = MessageDigest.getInstance("sha-256");
+    md.update(ByteBuffer.allocate(4).putInt(num).array());
+    md.update(ByteBuffer.allocate(4).putInt(num).array());
+    if (prevHash != null) {
+      md.update(prevHash.getData());
+    }
+    md.update(ByteBuffer.allocate(8).putLong(nonce).array());
+    return md.digest();
   }
   
   /**
