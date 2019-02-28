@@ -23,7 +23,7 @@ public class Block {
     this.amount = amount;
 
     long nonce = 0;
-    Hash currHash = new Hash("".getBytes());
+    Hash currHash = new Hash(new byte[0]);
     for (nonce = 0; nonce < Long.MAX_VALUE; nonce++) {
       byte[] tmpByte;
       /*

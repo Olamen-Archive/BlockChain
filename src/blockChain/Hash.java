@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package blockChain;
 
@@ -15,16 +15,14 @@ import java.util.Arrays;
 public class Hash {
 
   private byte[] hash;
-  
+
   /**
    * Constructor of Hash
    * @param data byte array to hash
    * @throws NoSuchAlgorithmException
    */
-  public Hash(byte[] data) throws NoSuchAlgorithmException {
-    MessageDigest md = MessageDigest.getInstance("sha-256");
-    md.update(data);
-    this.hash = md.digest();
+  public Hash(byte[] data) {
+      this.hash = data;
   }
 
   public static byte[] calculateHash(int num, int amount, Hash prevHash, long nonce) throws NoSuchAlgorithmException {
@@ -37,7 +35,7 @@ public class Hash {
     md.update(ByteBuffer.allocate(8).putLong(nonce).array());
     return md.digest();
   }
-  
+
   /**
    * Get hash value of data
    * @return hash value of data
